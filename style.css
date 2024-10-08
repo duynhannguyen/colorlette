@@ -47,10 +47,10 @@ svg {
   width: 80%;
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
-  /* pointer-events: none; */
-  /* transform: translateY(100px); */
+  pointer-events: none;
+  transform: translateY(100px);
   transition: all 0.5s ease-in-out;
-  /* opacity: 0; */
+  opacity: 0;
 }
 .sliders.active {
   opacity: 1;
@@ -151,10 +151,7 @@ input[type="range"] {
 .copy-popup.active {
   transform: translateY(0rem);
 }
-.copy-popup.closing {
-  transform: translateY(-2rem);
-  opacity: 0;
-}
+
 .copy-popup h4 {
   font-size: 2rem;
   padding: 2rem;

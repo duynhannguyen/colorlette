@@ -3,6 +3,9 @@ const generateBtn = document.querySelector(".generate");
 const sliders = document.querySelectorAll('input[type = "range"]');
 const currentHexes = document.querySelectorAll(".color h2");
 const copyPopup = document.querySelector(".copy-contaniner");
+const adjustBtn = document.querySelectorAll(".adjust");
+const closeAdjustment = document.querySelectorAll(".close-adjustment");
+const sliderContainer = document.querySelectorAll(".sliders");
 let initialColor;
 function generateHex() {
   const hexColor = chroma.random();
@@ -28,25 +31,39 @@ currentHexes.forEach((hex) => {
   });
 });
 
+adjustBtn.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    openAdjustMentPanel(index);
+  });
+});
+
+closeAdjustment.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    closeAdjustmentPanel(index);
+  });
+});
+
 copyPopup.addEventListener("click", (e) => {
   const popupBox = copyPopup.children[0];
   if (e.target.classList[0] === copyPopup.classList[0]) {
-    popupBox.classList.add("closing");
     popupBox.classList.remove("active");
     copyPopup.classList.remove("active");
-    popupBox.classList.remove("closing");
   }
 });
-
+generateBtn.addEventListener("click", randomColors);
 function randomColors() {
   initialColor = [];
   colorDivs.forEach((div, index) => {
+    const buttons = div.children[1].querySelectorAll(".controls button");
     const hexText = div.children[0];
     const randomColor = generateHex();
     initialColor.push(chroma(randomColor).hex());
     div.style.backgroundColor = randomColor;
     hexText.innerText = randomColor;
     checkTextContrast(randomColor, hexText);
+    buttons.forEach((button) => {
+      checkTextContrast(randomColor, button);
+    });
     const color = chroma(randomColor);
     const sliders = div.querySelectorAll(".sliders input");
     const hue = sliders[0];
@@ -145,4 +162,12 @@ function copyToClipBoarb(hex) {
   document.body.removeChild(el);
   const popup = copyPopup.classList.add("active");
   copyPopup.children[0].classList.add("active");
+}
+
+function openAdjustMentPanel(index) {
+  sliderContainer[index].classList.toggle("active");
+}
+
+function closeAdjustmentPanel(index) {
+  sliderContainer[index].classList.toggle("active");
 }
