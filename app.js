@@ -79,6 +79,7 @@ function randomColors() {
     });
     const color = chroma(randomColor);
     const sliders = div.querySelectorAll(".sliders input");
+    console.log("sliders", sliders);
     const hue = sliders[0];
     const brightness = sliders[1];
     const saturation = sliders[2];
@@ -271,6 +272,18 @@ function savePalette() {
   libraryPalette.appendChild(preview);
   libraryPalette.appendChild(paletteBtn);
   libraryContainer.children[0].appendChild(libraryPalette);
+  paletteBtn.addEventListener("click", (e) => {
+    // closeLibrary();
+    const paletteIndex = e.target.classList[1];
+    initialColor = [];
+    savePalettes[paletteIndex].color.forEach((color, index) => {
+      initialColor.push(color);
+      colorDivs[index].style.backgroundColor = color;
+      checkTextContrast(color, currentHexes[index]);
+      updateTextUI(index);
+    });
+    resetInput();
+  });
 }
 
 function savetoLocal(paletteObj) {
