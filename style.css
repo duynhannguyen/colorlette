@@ -57,7 +57,9 @@ svg {
   transform: translateY(0px);
   pointer-events: all;
 }
-.sliders button {
+.sliders button,
+.close-save,
+.close-library {
   position: absolute;
   top: 0;
   right: 0;
@@ -118,7 +120,9 @@ input[type="range"] {
   cursor: pointer;
 }
 
-.copy-contaniner {
+.copy-contaniner,
+.save-container,
+.library-container {
   position: fixed;
   top: 0%;
   left: 0%;
@@ -132,11 +136,15 @@ input[type="range"] {
   pointer-events: none;
   transition: all 0.5s ease;
 }
-.copy-contaniner.active {
+.copy-contaniner.active,
+.save-container.active,
+.library-container.active {
   opacity: 1;
   pointer-events: all;
 }
-.copy-popup {
+.copy-popup,
+.save-popup,
+.library-popup {
   background: white;
   display: flex;
   flex-direction: column;
@@ -148,11 +156,37 @@ input[type="range"] {
   min-width: 30%;
   min-height: 30vh;
 }
-.copy-popup.active {
+.copy-popup.active,
+.save-popup.active,
+.library-popup .active {
   transform: translateY(0rem);
 }
 
-.copy-popup h4 {
+.copy-popup h4,
+.save-popup h4,
+.library-popup h4 {
   font-size: 2rem;
   padding: 2rem;
+}
+
+.save-name {
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+.close-save,
+.close-library {
+  min-width: 10%;
+  border-top-right-radius: 2rem;
+  border-top-left-radius: none;
+  border-bottom-left-radius: none;
+}
+
+.submit-save {
+  margin: 2rem;
+  padding: 1rem 3rem;
+  background: rgb(135, 73, 177);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
 }

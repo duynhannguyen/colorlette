@@ -6,7 +6,9 @@ const copyPopup = document.querySelector(".copy-contaniner");
 const adjustBtn = document.querySelectorAll(".adjust");
 const closeAdjustment = document.querySelectorAll(".close-adjustment");
 const sliderContainer = document.querySelectorAll(".sliders");
+const lockButton = document.querySelectorAll(".lock");
 let initialColor;
+let savePalettes = [];
 function generateHex() {
   const hexColor = chroma.random();
 
@@ -43,6 +45,12 @@ closeAdjustment.forEach((button, index) => {
   });
 });
 
+lockButton.forEach((lock, index) => {
+  lock.addEventListener("click", (e) => {
+    lockColor(e, index);
+  });
+});
+
 copyPopup.addEventListener("click", (e) => {
   const popupBox = copyPopup.children[0];
   if (e.target.classList[0] === copyPopup.classList[0]) {
@@ -57,7 +65,12 @@ function randomColors() {
     const buttons = div.children[1].querySelectorAll(".controls button");
     const hexText = div.children[0];
     const randomColor = generateHex();
-    initialColor.push(chroma(randomColor).hex());
+    if (div.classList.contains("locked")) {
+      initialColor.push(hexText.innerText);
+      return;
+    } else {
+      initialColor.push(chroma(randomColor).hex());
+    }
     div.style.backgroundColor = randomColor;
     hexText.innerText = randomColor;
     checkTextContrast(randomColor, hexText);
@@ -74,7 +87,6 @@ function randomColors() {
   resetInput();
 }
 
-randomColors();
 function checkTextContrast(color, text) {
   const luminance = chroma(color).luminance();
   if (luminance > 0.5) {
@@ -171,3 +183,78 @@ function openAdjustMentPanel(index) {
 function closeAdjustmentPanel(index) {
   sliderContainer[index].classList.toggle("active");
 }
+
+function lockColor(e, index) {
+  const currentLock = e.target.children[0];
+
+  const activeBg = colorDivs[index];
+  activeBg.classList.toggle("locked");
+  if (activeBg.classList.contains("locked")) {
+    currentLock.innerHTML = '<i class="fas fa-lock"></i>';
+  } else {
+    currentLock.innerHTML = '<i class="fas fa-lock-open"></i>';
+  }
+}
+
+const saveBtn = document.querySelector(".save");
+const submitSave = document.querySelector(".submit-save");
+const closeSave = document.querySelector(".close-save");
+const saveContainer = document.querySelector(".save-container");
+const saveInput = document.querySelector(".save-container input");
+
+saveBtn.addEventListener("click", openPalette);
+closeSave.addEventListener("click", closePalette);
+saveContainer.addEventListener("click", (e) => {
+  if (e.target === saveContainer) {
+    closePalette(e);
+  }
+});
+submitSave.addEventListener("click", savePalette);
+function openPalette(e) {
+  const savePopup = saveContainer.children[0];
+  saveContainer.classList.add("active");
+  savePopup.classList.add("active");
+}
+
+function closePalette(e) {
+  const savePopup = saveContainer.children[0];
+  saveContainer.classList.remove("active");
+  savePopup.classList.remove("active");
+}
+
+function savePalette() {
+  const savePopup = saveContainer.children[0];
+  saveContainer.classList.remove("active");
+  savePopup.classList.remove("active");
+  const paletteName = saveInput.value;
+  if (paletteName === null) {
+    return;
+  }
+  const color = [];
+  currentHexes.forEach((hex) => {
+    color.push(hex.innerText);
+  });
+  let paletteNr = savePalettes.length;
+  const paletteObj = {
+    paletteName,
+    color,
+    paletteNr,
+  };
+  savePalettes.push(paletteObj);
+
+  savetoLocal(paletteObj);
+  saveInput.value = "";
+}
+
+function savetoLocal(paletteObj) {
+  let localPalettes;
+  if (localStorage.getItem("palettes") === null) {
+    localPalettes = [];
+  } else {
+    localPalettes = JSON.parse(localStorage.getItem("palettes"));
+  }
+  localPalettes.push(paletteObj);
+  localStorage.setItem("palettes", JSON.stringify(localPalettes));
+}
+
+randomColors();
