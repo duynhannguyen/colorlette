@@ -245,9 +245,9 @@ input[type="range"] {
     position: relative;
     width: 40%;
     opacity: 1;
+    pointer-events: all;
     transform: translateY(0);
     border-radius: 1rem;
-    pointer-events: all;
     min-width: 250px;
     padding: 0.5rem;
     font-size: 0.75rem;
@@ -299,6 +299,10 @@ input[type="range"] {
   .custom-palette h4 {
     flex: none;
   }
+  .save-popup h4 {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
   .library-popup h4 {
     padding: 0.5rem;
   }
@@ -310,5 +314,41 @@ input[type="range"] {
     width: 100%;
     text-align: center;
     line-height: 1;
+  }
+}
+@media (max-width: 550px) {
+  .adjust {
+    display: unset;
+  }
+  .adjust,
+  .lock {
+    margin: 0.5rem 0;
+    font-size: 1.5rem;
+  }
+  .close-adjustment {
+    display: unset;
+  }
+  .sliders {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transform: translateY(100px);
+    background: white;
+    width: 90%;
+  }
+  .sliders button {
+    padding: 0.4rem;
+    font-size: 0.6rem;
+  }
+  input[type="range"] {
+    margin: 0.1rem 0rem;
+  }
+  .panel button {
+    font-size: 0.7rem;
+    margin: 0.2rem 0rem;
+  }
+  .panel p {
+    font-size: 0.7rem;
+    font-weight: 500;
   }
 }

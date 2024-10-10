@@ -360,10 +360,15 @@ function getLocal() {
   }
 }
 
-function openLibrary() {
+function openLibrary(e) {
   const popup = libraryContainer.children[0];
   libraryContainer.classList.add("active");
   popup.classList.add("active");
+  libraryContainer.addEventListener("click", (e) => {
+    if (e.target === libraryContainer) {
+      closeLibrary();
+    }
+  });
 }
 function closeLibrary() {
   const popup = libraryContainer.children[0];
